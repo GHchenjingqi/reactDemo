@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUserInfo } from '@/store/datas/user';
+import type { RootState } from '@/store/index';
 // 表单
 import { Form, Input, Button, Checkbox, message } from 'antd';
 import type { FormProps } from 'antd';
@@ -23,7 +24,7 @@ const FormLogin: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch()
     const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-        post(loginApi, values).then((res: { code: number; data: { token: string; }; message: any; }) => {
+        post(loginApi, values).then((res: { code: number; data: RootState['user']; message: any; }) => {
             if (res.code === 200) {
                 localStorage.setItem('authToken', "Bearer " + res.data.token); // 将 token 存储到 localStorage
                 dispatch(setUserInfo(res.data))

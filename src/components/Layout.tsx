@@ -1,7 +1,7 @@
 // src/components/Layout.tsx
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/store/index';
+import type { RootState } from '@/store/index';
 import { Layout as AntLayout, Menu, Button, Avatar, theme } from 'antd';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {

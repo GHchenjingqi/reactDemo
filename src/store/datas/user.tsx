@@ -22,7 +22,7 @@ const userSlice = createSlice({
   name: 'userSlice',
   initialState,
   reducers: {
-    setUserInfo(state, action: { payload: UserState }) {
+    setUserInfo(_, action: { payload: UserState }) {
       return action.payload;
     },
   },
