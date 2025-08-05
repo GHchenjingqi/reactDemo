@@ -15,9 +15,9 @@ export default defineConfig({
     open: true,
     proxy: {
       "/dev-api": {
-        target: 'http://192.168.11.22:16080',
+        target: 'http://127.0.0.1:30001',
         changeOrigin: true,
-        rewrite: (p) => p.replace(/^\/dev-api/, ""),
+        rewrite: (p) => p.replace(/^\/dev-api/, "/api"),
       },
     }
   },

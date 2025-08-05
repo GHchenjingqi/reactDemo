@@ -60,7 +60,7 @@
 }
 #loginForm input#loginForm_password{ 
     height: 32px !important;
-    padding: 0 1rem;
+    padding: 0 0.4rem;
 }
 #loginForm button{
     width: 100%;

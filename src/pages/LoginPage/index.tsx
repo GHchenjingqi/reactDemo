@@ -1,30 +1,39 @@
 import React from "react";
-import './index.css'
-import logo from '../../assets/images/react.svg';
-import left from '../../assets/images/left.png';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setUserInfo } from '@/store/datas/user';
 // 表单
 import { Form, Input, Button, Checkbox, message } from 'antd';
 import type { FormProps } from 'antd';
-import { post } from '../../utils/request';
+// 请求
+import { post } from '@/utils/request';
 import { loginApi } from '@/services';
+
+// 资源
+import './index.css'
+import logo from '@/assets/images/react.svg';
+import left from '@/assets/images/left.png';
 const FormLogin: React.FC = () => {
     const [messageApi, contextHolder] = message.useMessage();
-
     type FieldType = {
         username?: string;
         password?: string;
         remember?: string;
     };
+    const navigate = useNavigate();
+    const dispatch = useDispatch()
     const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-        console.log('Success:', values);
-        post(loginApi, values).then((res) => {
+        post(loginApi, values).then((res: { code: number; data: { token: string; }; message: any; }) => {
             if (res.code === 200) {
-                const token = res.data.token;
-                localStorage.setItem('authToken', token); // 将 token 存储到 localStorage
+                localStorage.setItem('authToken', "Bearer " + res.data.token); // 将 token 存储到 localStorage
+                dispatch(setUserInfo(res.data))
                 messageApi.open({
                     type: 'success',
                     content: '登录成功',
                 });
+                setTimeout(() => {
+                    navigate('/');
+                }, 1500);
             } else {
                 messageApi.open({
                     type: 'error',
@@ -34,7 +43,7 @@ const FormLogin: React.FC = () => {
         });
     };
 
-    const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
+    const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (_errorInfo) => {
         messageApi.open({
             type: 'error',
             content: '请检查账号及密码！'
