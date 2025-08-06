@@ -1,7 +1,7 @@
 import React from 'react';
 import ButtonGo from '@/components/ButtonGo';
  
-const HomePage: React.FC = () =>{
+const Page: React.FC = () =>{
   return (
     <div>
       <h1>about</h1>
@@ -10,4 +10,4 @@ const HomePage: React.FC = () =>{
   )
 }
 
-export default HomePage;
+export default Page;

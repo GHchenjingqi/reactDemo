@@ -1,27 +1,33 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from 'antd';
+import { Button } from 'antd'; 
+import type {  ButtonProps } from 'antd';
 
-type ButtonGoProps = {
+interface ButtonGoProps extends Omit<ButtonProps, 'onClick'> {
   path: string;
-  children: React.ReactNode;
-  type?: 'primary' | 'dashed' | 'danger' | 'default' | 'link' | 'text';
-  size?: 'large' | 'middle' | 'small';
-  danger?: boolean;
-  disabled?: boolean;
-  loading?: boolean;
-  icon?: React.ReactNode;
-};
+}
 
-// 函数类型 + 类型注解
-const ButtonGo = ({ path, children }: ButtonGoProps) => {
+const ButtonGo: React.FC<ButtonGoProps> = ({ path, children, ...rest }) => {
   const navigate = useNavigate();
+  
+  // 使用 useCallback 避免不必要的函数重建
+  const handleClick = useCallback(() => {
+    if (path) {
+      navigate(path);
+    } else {
+      console.warn('ButtonGo: 缺少有效的跳转路径');
+    }
+  }, [navigate, path]);
 
   return (
-    <Button onClick={() => navigate(path)}>
+    <Button 
+      {...rest} 
+      onClick={handleClick}
+      role="link" // 提升可访问性
+    >
       {children}
     </Button>
   );
 };
 
-export default ButtonGo;
+export default React.memo(ButtonGo); // 使用 memo 避免不必要的重渲染

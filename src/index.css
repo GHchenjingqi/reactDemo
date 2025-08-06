@@ -47,10 +47,26 @@ body {
 }
 
 .header-user {
-  float: right;
+  margin-left: auto;
   margin-right: 1.4rem;
+  cursor: pointer;
 }
 .header-user .name{
   margin-left: 0.5rem;
   margin-right: 1rem;
+}
+
+
+.not-found{
+  padding-top: 30vh;
+  text-align: center;
+  font-size: 1.2rem;
+}
+.not-found h1{
+  font-size: 5rem;
+  letter-spacing: 1rem;
+}
+.not-found p{
+  margin-top: -2rem;
+  opacity: 0.6;
 }

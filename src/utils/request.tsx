@@ -45,7 +45,7 @@ http.interceptors.request.use(
 
     const token = localStorage.getItem('authToken'); 
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      headers['Authorization'] = `${token}`;
     }
 
     return { ...config, headers };
