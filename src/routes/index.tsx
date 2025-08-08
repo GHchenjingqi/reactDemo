@@ -3,6 +3,9 @@ import { Route, Routes } from 'react-router-dom';
 import HomePage from '../pages/HomePage';
 import NotFoundPage from '../pages/NotFoundPage';
 import LoginPage from '../pages/LoginPage';
+import RegisterPage from '../pages/RegisterPage';
+import BigScreenPage from '../pages/BigScreenPage';
+
 import Layout from '../components/Layout';
 
 const pageModules = import.meta.glob("../pages/**/index.tsx", { eager: false });
@@ -74,7 +77,8 @@ const AppRoutes = () => {
     <Routes>
       {/* 独立页面：登录页 */}
       <Route path="/login" element={<LoginPage />} />
-
+      <Route path="/regist" element={<RegisterPage />} />
+      <Route path="/screen" element={<BigScreenPage />} />
       {/* 需要布局的主路由组 */}
       <Route path="/" element={<Layout />}>
         {routeLists.map((route) => (

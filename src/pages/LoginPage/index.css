@@ -1,5 +1,5 @@
 .container {
-    width: 1440px;
+    width: 1280px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -33,7 +33,7 @@
     text-align: left
 }
 .login-left img{
-    width: 30vw;
+    width: 500px;
     margin-top: 5rem;
 }
 .login-right{
@@ -48,6 +48,8 @@
 .login-title{
     margin-top: 2rem;
     text-align: center;
+    letter-spacing: 2px;
+    color: #1844e2;
 }
 
 #loginForm{
@@ -58,7 +60,7 @@
     box-sizing: border-box;
      padding: 0 1rem;
 }
-#loginForm input#loginForm_password{ 
+#loginForm input#loginForm_password,#loginForm input#loginForm_password2{ 
     height: 32px !important;
     padding: 0 0.4rem;
 }

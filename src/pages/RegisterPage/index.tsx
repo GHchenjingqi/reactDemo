@@ -4,14 +4,14 @@ import { useDispatch } from 'react-redux';
 import { setUserInfo } from '@/store/datas/user';
 import type { RootState } from '@/store/index';
 // 表单
-import { Form, Input, Button, Checkbox, message } from 'antd';
+import { Form, Input, Button,  message } from 'antd';
 import type { FormProps } from 'antd';
 // 请求
 import { post } from '@/utils/request';
-import { loginApi } from '@/services';
+import { registerApi } from '@/services';
 
 // 资源
-import './index.css'
+import '../LoginPage/index.css'
 import logo from '@/assets/images/react.svg';
 import left from '@/assets/images/left.png';
 const FormLogin: React.FC = () => {
@@ -19,12 +19,19 @@ const FormLogin: React.FC = () => {
     type FieldType = {
         username?: string;
         password?: string;
-        remember?: string;
+        password2?: string;
     };
     const navigate = useNavigate();
     const dispatch = useDispatch()
     const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-        post(loginApi, values).then((res: { code: number; data: RootState['user']; message: any; }) => {
+        if (values.password !== values.password2) {
+            messageApi.open({
+                type: 'error',
+                content: "密码不一致",
+            });
+            return
+        }
+        post(registerApi, values).then((res: { code: number; data: RootState['user']; message: any; }) => {
             if (res.code === 200) {
                 localStorage.setItem('authToken', "Bearer " + res.data.token); // 将 token 存储到 localStorage
                 dispatch(setUserInfo(res.data))
@@ -59,7 +66,7 @@ const FormLogin: React.FC = () => {
                 labelCol={{ span: 6 }}
                 wrapperCol={{ span: 18 }}
                 style={{ maxWidth: 600 }}
-                initialValues={{ username:"admin", remember: true }}
+                initialValues={{ username:"" }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
                 autoComplete="off"
@@ -79,21 +86,24 @@ const FormLogin: React.FC = () => {
                 >
                     <Input.Password />
                 </Form.Item>
-
-                <Form.Item<FieldType> name="remember" valuePropName="checked" label={null}>
-                    <Checkbox>记住状态</Checkbox>
+                 <Form.Item<FieldType>
+                    label="确认密码"
+                    name="password2"
+                    rules={[{ required: true, message: '请再次输入密码!' }]}
+                >
+                    <Input.Password />
                 </Form.Item>
 
                 <Form.Item label={null}>
                     <Button type="primary" htmlType="submit">
-                        登 录
+                        注 册
                     </Button>
                 </Form.Item>
             </Form>
         </>
     )
 };
-const LoginPage: React.FC = () => (
+const Page: React.FC = () => (
     <div>
         <div className="login-header">
             <div className="container">
@@ -109,9 +119,9 @@ const LoginPage: React.FC = () => (
                     <img src={left} alt="" />
                 </div>
                 <div className="login-right">
-                    <h3 className="login-title">账号密码登录</h3>
+                    <h3 className="login-title">账号注册</h3>
                     <FormLogin />
-                    <p className="login-footer" style={{'marginLeft': '50px'}}><Link to="/regist">前往注册</Link></p>
+                     <p className="login-footer" style={{'marginLeft': '50px'}}><Link to="/login">已有账号，前往登录</Link></p>
                 </div>
             </div>
         </div>
@@ -120,4 +130,4 @@ const LoginPage: React.FC = () => (
         </div>
     </div>
 );
-export default LoginPage;
+export default Page;

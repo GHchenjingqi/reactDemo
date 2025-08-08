@@ -1,6 +1,7 @@
 import axios, {
   AxiosError
-} from 'axios'; // 注意：直接从 'axios' 导入，webpack/打包工具会处理
+} from 'axios'; 
+
 
 import type {
   AxiosRequestConfig,
@@ -27,7 +28,6 @@ const http = axios.create({
 // 注意：请求拦截器的 config 类型是 InternalAxiosRequestConfig
 http.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const headers = { ...config.headers };
     const data = config.data;
 
     if (
@@ -37,18 +37,18 @@ http.interceptors.request.use(
       typeof data === 'object' &&
       !Array.isArray(data)
     ) {
-      if (!headers['Content-Type']) {
-        headers['Content-Type'] = 'application/json';
+      if (!config.headers['Content-Type']) {
+        config.headers['Content-Type'] = 'application/json';
       }
       config.data = JSON.stringify(data);
     }
 
-    const token = localStorage.getItem('authToken'); 
+    const token = localStorage.getItem('authToken');
     if (token) {
-      headers['Authorization'] = `${token}`;
+      config.headers['Authorization'] = `${token}`;
     }
 
-    return { ...config, headers };
+    return config;
   },
   (error: AxiosError) => {
     return Promise.reject(error);
@@ -100,6 +100,11 @@ http.interceptors.response.use(
       errorResponse.message = '网络连接失败，请检查网络';
     } else {
       errorResponse.message = `请求配置错误: ${error.message}`;
+    }
+    // 跳转拦截，401未授权，返回登录页
+    if (errorResponse.status==401) {
+      localStorage.removeItem('authToken');
+      window.location.href = '/login'
     }
 
     return Promise.reject(errorResponse);
