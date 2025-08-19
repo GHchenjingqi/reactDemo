@@ -49,12 +49,12 @@ export default function G2Demo() {
       .legend('color', { position: 'left', layout: { justifyContent: 'flex-start'} })
       .label({
         position: 'outside',
-        text: (data) => `${data.item}: ${data.percent * 100}%`,
+        text: (data :{item: string; percent: number }) => `${data.item}: ${data.percent * 100}%`,
       })
       .tooltip((data) => ({
         name: data.item,
         value: `${data.percent * 100}%`,
-      }));
+      })).animate('update', { duration: 2500 });;
 
 
     // 渲染可视化

@@ -102,8 +102,8 @@ http.interceptors.response.use(
       errorResponse.message = `请求配置错误: ${error.message}`;
     }
     // 跳转拦截，401未授权，返回登录页
-    if (errorResponse.status==401) {
-      localStorage.removeItem('authToken');
+    if (errorResponse.status==401 || errorResponse.status==403) {
+      window.localStorage.clear();
       window.location.href = '/login'
     }
 

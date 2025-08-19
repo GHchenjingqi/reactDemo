@@ -57,7 +57,7 @@ export default function G2Demo() {
         inset: 0.5, // 设置柱子内边距比例（0-1），实现居中效果
         maxWidth:10 // 限制最大宽度
       })
-      .animate('update', { duration: 500 }); // 指定更新动画的时间
+      .animate('update', { duration: 2500 });
 
     // 渲染可视化
     chart.render();
